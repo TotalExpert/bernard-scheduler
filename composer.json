@@ -1,0 +1,26 @@
+{
+  "name": "totalexpertinc/bernard-scheduler",
+  "author": "Carter Zenk",
+  "type": "library",
+  "description": "A job scheduling library for bernard.",
+  "keywords": ["bernardphp", "bernard", "scheduler"],
+  "require": {
+    "bernard/bernard": "~1.0@alpha",
+    "bernard/normalt": "^1.0",
+    "php": "^5.6 || ^7.0",
+    "symfony/event-dispatcher": "^3.0 || ^4.0"
+  },
+  "require-dev": {
+    "doctrine/dbal": "^2.5",
+    "predis/predis": "^1.0",
+    "symfony/console": "^3.0 || ^4.0"
+  },
+  "autoload" : {
+    "psr-4" : { "TotalExpert\\BernardScheduler\\" : "src/" }
+  },
+  "autoload-dev" : {
+    "psr-4" : {
+      "TotalExpert\\BernardScheduler\\Tests\\" : "tests/"
+    }
+  }
+}
