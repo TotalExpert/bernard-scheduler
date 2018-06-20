@@ -1,5 +1,5 @@
 <?php
-namespace TotalExpertInc\BernardScheduler\Normalizer;
+namespace TotalExpert\BernardScheduler\Normalizer;
 
 use Bernard\Envelope;
 use Normalt\Normalizer\AggregateNormalizer;
@@ -8,7 +8,7 @@ use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Exception\RuntimeException;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use TotalExpertInc\BernardScheduler\Job;
+use TotalExpert\BernardScheduler\Job;
 
 final class JobNormalizer implements NormalizerInterface, DenormalizerInterface, AggregateNormalizerAware
 {

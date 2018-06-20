@@ -1,7 +1,7 @@
 <?php
-namespace TotalExpertInc\BernardScheduler\Serializer;
+namespace TotalExpert\BernardScheduler\Serializer;
 
-use TotalExpertInc\BernardScheduler\Job;
+use TotalExpert\BernardScheduler\Job;
 
 interface SerializerInterface
 {

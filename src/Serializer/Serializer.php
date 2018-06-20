@@ -1,11 +1,11 @@
 <?php
-namespace TotalExpertInc\BernardScheduler\Serializer;
+namespace TotalExpert\BernardScheduler\Serializer;
 
 use Bernard\Normalizer\EnvelopeNormalizer;
 use Bernard\Normalizer\PlainMessageNormalizer;
 use Normalt\Normalizer\AggregateNormalizer;
-use TotalExpertInc\BernardScheduler\Job;
-use TotalExpertInc\BernardScheduler\Normalizer\JobNormalizer;
+use TotalExpert\BernardScheduler\Job;
+use TotalExpert\BernardScheduler\Normalizer\JobNormalizer;
 
 class Serializer implements SerializerInterface
 {

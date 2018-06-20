@@ -1,5 +1,5 @@
 <?php
-namespace TotalExpertInc\BernardScheduler;
+namespace TotalExpert\BernardScheduler;
 
 use Bernard\Envelope;
 use Bernard\Message;

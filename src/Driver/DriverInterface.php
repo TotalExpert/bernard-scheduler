@@ -1,5 +1,5 @@
 <?php
-namespace TotalExpertInc\BernardScheduler\Driver;
+namespace TotalExpert\BernardScheduler\Driver;
 
 interface DriverInterface
 {
@@ -10,19 +10,13 @@ interface DriverInterface
     public function enqueueAt($timestamp, $job);
 
     /**
-     * @param int $timestamp|null
-     * @return int
-     */
-    public function popTimestamp($timestamp);
-
-    /**
      * @param int $timestamp
-     * @return string
+     * @return array|null
      */
     public function popJob($timestamp);
 
     /**
-     * @param int $timestamp
+     * @param mixed $receipt
      */
-    public function cleanup($timestamp);
+    public function cleanup($receipt);
 }

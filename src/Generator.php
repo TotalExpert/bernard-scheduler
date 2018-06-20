@@ -1,59 +1,72 @@
 <?php
-namespace TotalExpertInc\BernardScheduler;
+namespace TotalExpert\BernardScheduler;
 
 use Bernard\Producer;
-use TotalExpertInc\BernardScheduler\Driver\DriverInterface;
-use TotalExpertInc\BernardScheduler\Serializer\SerializerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use TotalExpert\BernardScheduler\Event\BernardSchedulerEvents;
+use TotalExpert\BernardScheduler\Event\ErrorEvent;
+use TotalExpert\BernardScheduler\Event\JobEvent;
+use TotalExpert\BernardScheduler\Event\PingEvent;
+use TotalExpert\BernardScheduler\Schedule\ScheduleInterface;
 
 class Generator
 {
     /**
-     * @var DriverInterface
-     */
-    private $driver;
-
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
-
-    /**
      * @var Producer
      */
-    private $producer;
+    protected $producer;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
 
     /**
      * @var bool
      */
-    private $shutdown = false;
+    protected $shutdown = false;
+
+    /**
+     * @var bool
+     */
+    protected $configured = false;
+
+    /**
+     * @var array
+     */
+    protected $options = [
+        'max-runtime' => PHP_INT_MAX,
+        'max-messages' => null,
+        'stop-when-empty' => false,
+        'stop-on-error' => false,
+    ];
 
     /**
      * Generator constructor.
-     * @param DriverInterface $driver
-     * @param SerializerInterface $serializer
      * @param Producer $producer
+     * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
-        DriverInterface $driver,
-        SerializerInterface $serializer,
-        Producer $producer
+        Producer $producer,
+        EventDispatcherInterface $eventDispatcher
     ){
-        $this->driver = $driver;
-        $this->serializer = $serializer;
         $this->producer = $producer;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
      * Starts an infinite loop calling tick();
-     *
-     * @param int $interval
+     * @param ScheduleInterface $schedule
+     * @param $options
      */
-    public function run($interval)
+    public function run(ScheduleInterface $schedule, array $options = [])
     {
+        declare(ticks=1);
+
         $this->bind();
 
-        while ($this->tick()) {
-            sleep($interval);
+        while ($this->tick($schedule, $options)) {
+            //No OP
         }
     }
 
@@ -76,31 +89,88 @@ class Generator
     }
 
     /**
+     * @param ScheduleInterface $schedule
+     * @param array $options
      * @return bool
      */
-    private function tick()
+    public function tick(ScheduleInterface $schedule, array $options)
     {
+        $this->configure($options);
+
         if ($this->shutdown) {
             return false;
         }
 
-        $timestamp = $this->driver->popTimestamp(time());
+        if (microtime(true) > $this->options['max-runtime']) {
+            return false;
+        }
 
-        if ($timestamp === null) {
+        $this->eventDispatcher->dispatch(BernardSchedulerEvents::PING, new PingEvent());
+
+        $job = $schedule->dequeue(new \DateTime());
+
+        if (!$job) {
+            return !$this->options['stop-when-empty'];
+        }
+
+        $this->generate($job, $schedule);
+
+        if (null === $this->options['max-messages']) {
             return true;
         }
 
-        while ($serializedJob = $this->driver->popJob($timestamp)) {
-            $job = $this->serializer->unserialize($serializedJob);
+        return (bool) --$this->options['max-messages'];
+    }
+
+    /**
+     * @param Job $job
+     * @param ScheduleInterface $schedule
+     */
+    protected function generate(Job $job, ScheduleInterface $schedule)
+    {
+        try {
+            $this->eventDispatcher->dispatch(BernardSchedulerEvents::GENERATE, new JobEvent($job));
 
             $this->producer->produce(
                 $job->getEnvelope()->getMessage(),
                 $job->getQueueName()
             );
+
+            $schedule->cleanup($job);
+
+            $this->eventDispatcher->dispatch(BernardSchedulerEvents::CLEANUP, new JobEvent($job));
+        } catch (\Throwable $error) {
+            $this->handleError($job, $error);
+        } catch (\Exception $exception) {
+            $this->handleError($job, $exception);
+        }
+    }
+
+    /**
+     * @param array $options
+     * @return void
+     */
+    protected function configure(array $options)
+    {
+        if ($this->configured) {
+            return;
         }
 
-        $this->driver->cleanup($timestamp);
+        $this->options = array_filter($options) + $this->options;
+        $this->options['max-runtime'] += microtime(true);
+        $this->configured = true;
+    }
 
-        return true;
+    /**
+     * @param Job $job
+     * @param $error
+     */
+    protected function handleError(Job $job, $error)
+    {
+        $this->eventDispatcher->dispatch(BernardSchedulerEvents::ERROR, new ErrorEvent($job, $error));
+
+        if ($this->options['stop-on-error']) {
+            throw $error;
+        }
     }
 }

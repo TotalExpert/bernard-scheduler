@@ -1,33 +1,35 @@
 <?php
-namespace TotalExpertInc\BernardScheduler;
+namespace TotalExpert\BernardScheduler;
 
 use Bernard\Message;
-use TotalExpertInc\BernardScheduler\Driver\DriverInterface;
-use TotalExpertInc\BernardScheduler\Serializer\SerializerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use TotalExpert\BernardScheduler\Event\BernardSchedulerEvents;
+use TotalExpert\BernardScheduler\Event\JobEvent;
+use TotalExpert\BernardScheduler\Schedule\ScheduleInterface;
 
 class Scheduler
 {
     /**
-     * @var DriverInterface
+     * @var EventDispatcherInterface
      */
-    private $driver;
+    protected $eventDispatcher;
 
     /**
-     * @var SerializerInterface
+     * @var ScheduleInterface
      */
-    private $serializer;
+    protected $schedule;
 
     /**
      * Scheduler constructor.
-     * @param DriverInterface $driver
-     * @param SerializerInterface $serializer
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param ScheduleInterface $schedule
      */
     public function __construct(
-        DriverInterface $driver,
-        SerializerInterface $serializer
+        EventDispatcherInterface $eventDispatcher,
+        ScheduleInterface $schedule
     ){
-        $this->driver = $driver;
-        $this->serializer = $serializer;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->schedule = $schedule;
     }
 
     /**
@@ -39,9 +41,8 @@ class Scheduler
     {
         $job = new Job($message, $dateTime, $queueName);
 
-        $this->driver->enqueueAt(
-            $dateTime->getTimestamp(),
-            $this->serializer->serialize($job)
-        );
+        $this->eventDispatcher->dispatch(BernardSchedulerEvents::SCHEDULE, new JobEvent($job));
+
+        $this->schedule->enqueue($job);
     }
 }
