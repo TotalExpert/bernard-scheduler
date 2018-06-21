@@ -2,6 +2,7 @@
 namespace TotalExpert\BernardScheduler\Tests;
 
 use Bernard\Message\PlainMessage;
+use Bernard\Producer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -24,6 +25,11 @@ class SchedulerTest extends TestCase
     protected $schedule;
 
     /**
+     * @var Producer|MockObject
+     */
+    protected $producer;
+
+    /**
      * @var Scheduler
      */
     protected $scheduler;
@@ -43,26 +49,20 @@ class SchedulerTest extends TestCase
             ->setMethods(['schedule'])
             ->getMockForAbstractClass();
 
-        $this->scheduler = new Scheduler($this->eventDispatcher, $this->schedule);
+        $this->producer = $this
+            ->getMockBuilder(Producer::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['produce'])
+            ->getMock();
+
+        $this->scheduler = new Scheduler(
+            $this->eventDispatcher,
+            $this->schedule,
+            $this->producer
+        );
     }
 
-    public function testItDispatchesEvent()
-    {
-        $this
-            ->eventDispatcher
-            ->expects($this->once())
-            ->method('dispatch')
-            ->with(
-                $this->equalTo(BernardSchedulerEvents::SCHEDULE),
-                $this->callback(function($event){
-                    return $event instanceof JobEvent;
-                })
-            );
-
-        $this->scheduler->schedule(new PlainMessage('SendEmail', []), new \DateTime());
-    }
-
-    public function testItSchedules()
+    public function testItSchedulesJobWhenScheduleTimeIsInFuture()
     {
         $this
             ->schedule
@@ -74,6 +74,45 @@ class SchedulerTest extends TestCase
                 })
             );
 
-        $this->scheduler->schedule(new PlainMessage('SendEmail', []), new \DateTime());
+        $this
+            ->eventDispatcher
+            ->expects($this->once())
+            ->method('dispatch')
+            ->with(
+                $this->equalTo(BernardSchedulerEvents::SCHEDULE),
+                $this->callback(function($event){
+                    return $event instanceof JobEvent;
+                })
+            );
+
+        $this->producer->expects($this->never())->method('produce');
+
+        $this->scheduler->schedule($this->createMessage(), new \DateTime('+1 minute'));
+    }
+
+    public function testItProducesJobWhenScheduleTimeIsInPast()
+    {
+        $queueName = 'email';
+        $message = $this->createMessage();
+
+        $this->schedule->expects($this->never())->method('enqueue');
+
+        $this->eventDispatcher->expects($this->never())->method('dispatch');
+
+        $this
+            ->producer
+            ->expects($this->once())
+            ->method('produce')
+            ->with(
+                $this->identicalTo($message),
+                $this->identicalTo($queueName)
+            );
+
+        $this->scheduler->schedule($message, new \DateTime('-1 minute'), $queueName);
+    }
+
+    private function createMessage()
+    {
+        return new PlainMessage('SendEmail', []);
     }
 }

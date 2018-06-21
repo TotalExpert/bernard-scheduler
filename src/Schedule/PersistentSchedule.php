@@ -54,7 +54,6 @@ class PersistentSchedule implements ScheduleInterface
 
         if ($serialized) {
             $job = $this->serializer->unserialize($serialized);
-
             $this->receipts->attach($job, $receipt);
 
             return $job;
@@ -70,7 +69,6 @@ class PersistentSchedule implements ScheduleInterface
     {
         if ($this->receipts->contains($job)) {
             $this->driver->cleanup($this->receipts[$job]);
-
             $this->receipts->detach($job);
         }
     }

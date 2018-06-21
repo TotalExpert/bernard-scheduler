@@ -75,9 +75,9 @@ class Generator
      */
     private function bind()
     {
-        pcntl_signal(SIGTERM, array($this, 'shutdown'));
-        pcntl_signal(SIGQUIT, array($this, 'shutdown'));
-        pcntl_signal(SIGINT, array($this, 'shutdown'));
+        pcntl_signal(SIGTERM, [$this, 'shutdown']);
+        pcntl_signal(SIGQUIT, [$this, 'shutdown']);
+        pcntl_signal(SIGINT, [$this, 'shutdown']);
     }
 
     /**
@@ -139,10 +139,10 @@ class Generator
             $schedule->cleanup($job);
 
             $this->eventDispatcher->dispatch(BernardSchedulerEvents::CLEANUP, new JobEvent($job));
-        } catch (\Throwable $error) {
-            $this->handleError($job, $error);
         } catch (\Exception $exception) {
             $this->handleError($job, $exception);
+        } catch (\Throwable $error) {
+            $this->handleError($job, $error);
         }
     }
 
