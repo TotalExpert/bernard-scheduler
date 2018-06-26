@@ -27,11 +27,11 @@ class Driver implements DriverInterface
      */
     public function enqueueAt($timestamp, $job)
     {
-        $types = ['timestamp', 'timestamp', 'string'];
+        $types = ['integer', 'datetime', 'string'];
 
         $data = [
             'enqueue_at' => $timestamp,
-            'created_at' => time(),
+            'created_at' => new \DateTime(),
             'job' => $job,
         ];
 

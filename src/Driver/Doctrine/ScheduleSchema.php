@@ -21,8 +21,8 @@ class ScheduleSchema
         ]);
         $table->addColumn('visible', 'boolean', ['default' => true]);
         $table->addColumn('job', 'text');
-        $table->addColumn('enqueue_at', 'timestamp');
-        $table->addColumn('created_at', 'timestamp');
+        $table->addColumn('enqueue_at', 'integer');
+        $table->addColumn('created_at', 'datetime');
 
         $table->setPrimaryKey(['id']);
         $table->addIndex(['enqueue_at', 'created_at', 'visible']);
