@@ -27,7 +27,7 @@ class Driver implements DriverInterface
     public function popJob($timestamp)
     {
         foreach ($this->scheduledJobs as $key => $scheduledJob) {
-            if ($scheduledJob['timestamp'] === $timestamp) {
+            if ($scheduledJob['timestamp'] <= $timestamp) {
                 return [$scheduledJob['job'], $key];
             }
         }
