@@ -52,7 +52,7 @@ class Driver implements DriverInterface
 
             $this->connection->commit();
         } catch (\Exception $e) {
-            $message = null;
+            $message = [null, null];
 
             $this->connection->rollback();
         }
@@ -90,7 +90,7 @@ class Driver implements DriverInterface
             return [$job, $id];
         }
 
-        return null;
+        return [null, null];
     }
 
     /**

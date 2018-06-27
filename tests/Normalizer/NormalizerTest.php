@@ -16,7 +16,9 @@ class NormalizerTest extends AbstractSchedulerTestCase
      */
     protected $normalizer;
 
-
+    /**
+     * @inheritdoc
+     */
     public function setUp()
     {
         $this->normalizer = new AggregateNormalizer([

@@ -28,11 +28,12 @@ class Driver implements DriverInterface
     {
         foreach ($this->scheduledJobs as $key => $scheduledJob) {
             if ($scheduledJob['timestamp'] <= $timestamp) {
+                unset($this->scheduledJobs[$key]);
                 return [$scheduledJob['job'], $key];
             }
         }
 
-        return null;
+        return [null, null];
     }
 
     /**
@@ -40,6 +41,6 @@ class Driver implements DriverInterface
      */
     public function cleanup($receipt)
     {
-        unset($this->scheduledJobs[$receipt]);
+        // No op.
     }
 }

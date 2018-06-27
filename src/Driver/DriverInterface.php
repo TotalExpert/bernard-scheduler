@@ -11,7 +11,7 @@ interface DriverInterface
 
     /**
      * @param int $timestamp
-     * @return array|null
+     * @return array
      */
     public function popJob($timestamp);
 
