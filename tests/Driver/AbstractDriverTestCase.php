@@ -2,7 +2,6 @@
 namespace TotalExpert\BernardScheduler\Tests\Driver;
 
 use PHPUnit\Framework\TestCase;
-use Throwable;
 use TotalExpert\BernardScheduler\Driver\DriverInterface;
 
 abstract class AbstractDriverTestCase extends TestCase
