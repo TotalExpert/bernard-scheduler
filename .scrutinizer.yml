@@ -16,6 +16,7 @@ build:
             dependencies:
                 before:
                     - mysql -e "CREATE DATABASE bernard_scheduler_test;"
+                    - pecl install redis
             tests:
                 override:
                     -
