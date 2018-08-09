@@ -1,14 +1,40 @@
-filter:
-    paths: [src/*]
-checks:
-    php:
-        code_rating: true
-        duplication: true
 build:
-    tests:
-        override:
-            -
-                command: 'vendor/bin/phpunit --coverage-clover=coverage.xml'
-                coverage:
-                    file: 'coverage.xml'
-                    format: 'clover'
+    nodes:
+        tests-with-coverage:
+            tests:
+                override:
+                    -
+                        command: 'vendor/bin/phpunit --coverage-clover=clover.xml'
+                        coverage:
+                            file: 'clover.xml'
+                            format: 'clover'
+
+        tests-integration:
+            environment:
+                mysql: 5.7
+                redis: true
+            dependencies:
+                before:
+                    - mysql -e "CREATE DATABASE bernard_scheduler_test;"
+            tests:
+                override:
+                    -
+                        command: 'vendor/bin/phpunit -v --group integration'
+
+        analysis:
+            project_setup:
+                override:
+                    - 'true'
+            tests:
+                override:
+                    - php-scrutinizer-run
+                    -
+                        command: phpcs-run
+                        use_website_config: true
+filter:
+    excluded_paths:
+        - 'tests/*'
+checks:
+    php: true
+coding_style:
+    php: {  }
