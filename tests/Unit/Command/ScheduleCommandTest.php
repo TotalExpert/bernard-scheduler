@@ -1,5 +1,5 @@
 <?php
-namespace TotalExpert\BernardScheduler\Tests\Command;
+namespace TotalExpert\BernardScheduler\Tests\Unit\Command;
 
 use Bernard\Message\PlainMessage;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -69,7 +69,7 @@ class ScheduleCommandTest extends TestCase
             ->method('schedule')
             ->with(
                 $this->equalTo(new PlainMessage($name, [])),
-                $this->callback(function($datetime){
+                $this->callback(function ($datetime) {
                     $nowDt = new \DateTime();
                     return $nowDt->getTimestamp() === $datetime->getTimestamp();
                 }),

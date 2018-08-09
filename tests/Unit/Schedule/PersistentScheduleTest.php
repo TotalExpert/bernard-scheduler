@@ -1,5 +1,5 @@
 <?php
-namespace TotalExpert\BernardScheduler\Tests\Schedule;
+namespace TotalExpert\BernardScheduler\Tests\Unit\Schedule;
 
 use Bernard\Message\PlainMessage;
 use PHPUnit\Framework\MockObject\MockObject;

@@ -39,10 +39,34 @@ class GenerateCommand extends Command
     public function configure()
     {
         $this
-            ->addOption('max-runtime', null, InputOption::VALUE_OPTIONAL, 'Maximum time in seconds the generator will run.', null)
-            ->addOption('max-messages', null, InputOption::VALUE_OPTIONAL, 'Maximum number of jobs that should be generated.', null)
-            ->addOption('stop-when-empty', null, InputOption::VALUE_NONE, 'Stop generator when schedule is empty.', null)
-            ->addOption('stop-on-error', null, InputOption::VALUE_NONE, 'Stop generator when an error occurs.', null);
+            ->addOption(
+                'max-runtime',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Maximum time in seconds the generator will run.',
+                null
+            )
+            ->addOption(
+                'max-messages',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Maximum number of jobs that should be generated.',
+                null
+            )
+            ->addOption(
+                'stop-when-empty',
+                null,
+                InputOption::VALUE_NONE,
+                'Stop generator when schedule is empty.',
+                null
+            )
+            ->addOption(
+                'stop-on-error',
+                null,
+                InputOption::VALUE_NONE,
+                'Stop generator when an error occurs.',
+                null
+            );
     }
 
     /**

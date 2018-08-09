@@ -3,6 +3,7 @@
   "author": "Carter Zenk",
   "type": "library",
   "description": "A job scheduling library for bernard.",
+  "license": "MIT",
   "keywords": ["bernardphp", "bernard", "scheduler"],
   "require": {
     "bernard/bernard": "~1.0@alpha",
@@ -16,14 +17,21 @@
     "predis/predis": "^1.0",
     "symfony/console": "^3.0 || ^4.0",
     "psr/log": "^1.0",
-    "phpunit/phpunit": "^5.7 || ^6.0 || ^7.0"
+    "phpunit/phpunit": "^5.7 || ^6.0 || ^7.0",
+    "squizlabs/php_codesniffer": "^3.3"
   },
-  "autoload" : {
-    "psr-4" : { "TotalExpert\\BernardScheduler\\" : "src/" }
+  "autoload": {
+    "psr-4": { "TotalExpert\\BernardScheduler\\": "src/" }
   },
-  "autoload-dev" : {
-    "psr-4" : {
-      "TotalExpert\\BernardScheduler\\Tests\\" : "tests/"
+  "autoload-dev": {
+    "psr-4": {
+      "TotalExpert\\BernardScheduler\\Tests\\": "tests/"
     }
+  },
+  "scripts": {
+    "clean": "rm -rf vendor/ coverage.xml",
+    "test": "vendor/bin/phpunit --testsuite unit",
+    "test-coverage": "vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml",
+    "test-integration": "vendor/bin/phpunit --testsuite integration"
   }
 }

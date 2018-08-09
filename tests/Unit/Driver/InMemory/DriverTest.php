@@ -1,8 +1,8 @@
 <?php
-namespace TotalExpert\BernardScheduler\Tests\Driver\InMemory;
+namespace TotalExpert\BernardScheduler\Tests\Unit\Driver\InMemory;
 
 use TotalExpert\BernardScheduler\Driver\InMemory\Driver;
-use TotalExpert\BernardScheduler\Tests\Driver\AbstractDriverTestCase;
+use TotalExpert\BernardScheduler\Tests\Base\AbstractDriverTestCase;
 
 class DriverTest extends AbstractDriverTestCase
 {

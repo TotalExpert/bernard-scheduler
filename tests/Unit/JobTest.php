@@ -1,8 +1,9 @@
 <?php
-namespace TotalExpert\BernardScheduler\Tests;
+namespace TotalExpert\BernardScheduler\Tests\Unit;
 
 use Bernard\Envelope;
 use TotalExpert\BernardScheduler\Job;
+use TotalExpert\BernardScheduler\Tests\Base\AbstractSchedulerTestCase;
 
 class JobTest extends AbstractSchedulerTestCase
 {

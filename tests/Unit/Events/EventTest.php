@@ -1,10 +1,10 @@
 <?php
-namespace TotalExpert\BernardScheduler\Tests\Events;
+namespace TotalExpert\BernardScheduler\Tests\Unit\Events;
 
 use TotalExpert\BernardScheduler\Event\ErrorEvent;
 use TotalExpert\BernardScheduler\Event\JobEvent;
 use TotalExpert\BernardScheduler\Event\PingEvent;
-use TotalExpert\BernardScheduler\Tests\AbstractSchedulerTestCase;
+use TotalExpert\BernardScheduler\Tests\Base\AbstractSchedulerTestCase;
 
 class EventTest extends AbstractSchedulerTestCase
 {

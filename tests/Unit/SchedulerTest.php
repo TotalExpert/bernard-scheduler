@@ -1,5 +1,5 @@
 <?php
-namespace TotalExpert\BernardScheduler\Tests;
+namespace TotalExpert\BernardScheduler\Tests\Unit;
 
 use Bernard\Message\PlainMessage;
 use Bernard\Producer;
@@ -69,7 +69,7 @@ class SchedulerTest extends TestCase
             ->expects($this->once())
             ->method('enqueue')
             ->with(
-                $this->callback(function($job) {
+                $this->callback(function ($job) {
                     return $job instanceof Job;
                 })
             );
@@ -80,7 +80,7 @@ class SchedulerTest extends TestCase
             ->method('dispatch')
             ->with(
                 $this->equalTo(BernardSchedulerEvents::SCHEDULE),
-                $this->callback(function($event){
+                $this->callback(function ($event) {
                     return $event instanceof JobEvent;
                 })
             );

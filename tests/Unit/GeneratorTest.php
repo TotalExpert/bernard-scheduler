@@ -1,5 +1,5 @@
 <?php
-namespace TotalExpert\BernardScheduler\Tests;
+namespace TotalExpert\BernardScheduler\Tests\Unit;
 
 use Bernard\Producer;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -10,6 +10,7 @@ use TotalExpert\BernardScheduler\Event\JobEvent;
 use TotalExpert\BernardScheduler\Event\PingEvent;
 use TotalExpert\BernardScheduler\Generator;
 use TotalExpert\BernardScheduler\Schedule\ScheduleInterface;
+use TotalExpert\BernardScheduler\Tests\Base\AbstractSchedulerTestCase;
 
 class GeneratorTest extends AbstractSchedulerTestCase
 {

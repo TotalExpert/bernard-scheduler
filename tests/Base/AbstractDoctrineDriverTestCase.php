@@ -1,16 +1,14 @@
 <?php
-namespace TotalExpert\BernardScheduler\Tests\Driver\Doctrine;
+namespace TotalExpert\BernardScheduler\Tests\Base;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use PHPUnit\Framework\MockObject\MockObject;
 use TotalExpert\BernardScheduler\Driver\Doctrine\Driver;
 use TotalExpert\BernardScheduler\Driver\Doctrine\ScheduleSchema;
-use TotalExpert\BernardScheduler\Tests\Driver\AbstractDriverTestCase;
 
-class DriverTest extends AbstractDriverTestCase
+abstract class AbstractDoctrineDriverTestCase extends AbstractDriverTestCase
 {
     /**
      * @var Connection
@@ -38,13 +36,10 @@ class DriverTest extends AbstractDriverTestCase
         return new Driver($this->connection);
     }
 
-    protected function createConnection()
-    {
-        return DriverManager::getConnection([
-            'memory' => true,
-            'driver' => 'pdo_sqlite'
-        ]);
-    }
+    /**
+     * @return Connection
+     */
+    abstract protected function createConnection();
 
     protected function tearDown()
     {

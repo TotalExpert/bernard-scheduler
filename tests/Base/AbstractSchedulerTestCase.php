@@ -1,5 +1,5 @@
 <?php
-namespace TotalExpert\BernardScheduler\Tests;
+namespace TotalExpert\BernardScheduler\Tests\Base;
 
 use PHPUnit\Framework\TestCase;
 use TotalExpert\BernardScheduler\Job;

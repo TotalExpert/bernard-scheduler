@@ -1,5 +1,5 @@
 <?php
-namespace TotalExpert\BernardScheduler\Tests\EventListener;
+namespace TotalExpert\BernardScheduler\Tests\Unit\EventListener;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -8,7 +8,7 @@ use TotalExpert\BernardScheduler\Event\BernardSchedulerEvents;
 use TotalExpert\BernardScheduler\Event\ErrorEvent;
 use TotalExpert\BernardScheduler\Event\JobEvent;
 use TotalExpert\BernardScheduler\EventListener\LoggerSubscriber;
-use TotalExpert\BernardScheduler\Tests\AbstractSchedulerTestCase;
+use TotalExpert\BernardScheduler\Tests\Base\AbstractSchedulerTestCase;
 
 class LoggerSubscriberTest extends AbstractSchedulerTestCase
 {

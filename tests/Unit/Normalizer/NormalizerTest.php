@@ -1,5 +1,5 @@
 <?php
-namespace TotalExpert\BernardScheduler\Tests\Normalizer;
+namespace TotalExpert\BernardScheduler\Tests\Unit\Normalizer;
 
 use Bernard\Message\PlainMessage;
 use Bernard\Normalizer\EnvelopeNormalizer;
@@ -7,7 +7,7 @@ use Bernard\Normalizer\PlainMessageNormalizer;
 use Normalt\Normalizer\AggregateNormalizer;
 use TotalExpert\BernardScheduler\Job;
 use TotalExpert\BernardScheduler\Normalizer\JobNormalizer;
-use TotalExpert\BernardScheduler\Tests\AbstractSchedulerTestCase;
+use TotalExpert\BernardScheduler\Tests\Base\AbstractSchedulerTestCase;
 
 class NormalizerTest extends AbstractSchedulerTestCase
 {

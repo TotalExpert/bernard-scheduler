@@ -1,9 +1,9 @@
 <?php
-namespace TotalExpert\BernardScheduler\Tests\Serializer;
+namespace TotalExpert\BernardScheduler\Tests\Unit\Serializer;
 
 use TotalExpert\BernardScheduler\Job;
 use TotalExpert\BernardScheduler\Serializer\Serializer;
-use TotalExpert\BernardScheduler\Tests\AbstractSchedulerTestCase;
+use TotalExpert\BernardScheduler\Tests\Base\AbstractSchedulerTestCase;
 
 class SerializerTest extends AbstractSchedulerTestCase
 {

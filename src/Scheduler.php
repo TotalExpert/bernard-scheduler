@@ -35,7 +35,7 @@ class Scheduler
         EventDispatcherInterface $eventDispatcher,
         ScheduleInterface $schedule,
         Producer $producer
-    ){
+    ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->schedule = $schedule;
         $this->producer = $producer;
