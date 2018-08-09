@@ -1,10 +1,10 @@
 build:
     nodes:
-        tests-with-coverage:
+        tests-coverage:
             tests:
                 override:
                     -
-                        command: 'vendor/bin/phpunit --coverage-clover=clover.xml'
+                        command: 'vendor/bin/phpunit --testsuite unit --coverage-clover=clover.xml'
                         coverage:
                             file: 'clover.xml'
                             format: 'clover'
@@ -20,7 +20,7 @@ build:
             tests:
                 override:
                     -
-                        command: 'vendor/bin/phpunit -v --group integration'
+                        command: 'vendor/bin/phpunit --testsuite integration'
 
         analysis:
             project_setup:

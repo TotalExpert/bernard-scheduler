@@ -28,7 +28,7 @@ abstract class AbstractDriverTestCase extends TestCase
     /**
      * @return DriverInterface
      */
-    protected abstract function createDriver();
+    abstract protected function createDriver();
 
     public function testDriverClassExists()
     {
@@ -95,7 +95,6 @@ abstract class AbstractDriverTestCase extends TestCase
         $this->assertNotNull(
             $job[0],
             "{$this->driverClass} did not pop an expected job."
-
         );
 
         $job = $this->popNow();

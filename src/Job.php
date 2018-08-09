@@ -31,7 +31,7 @@ final class Job
         Message $message,
         \DateTime $enqueueAt,
         $queueName = null
-    ){
+    ) {
         $this->envelope = new Envelope($message);
         $this->enqueueAt = $enqueueAt;
         $this->queueName = $queueName;

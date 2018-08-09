@@ -27,12 +27,12 @@ abstract class AbstractRedisTestCase extends TestCase
     /**
      * @return \Redis|Client|MockObject
      */
-    protected abstract function createRedis();
+    abstract protected function createRedis();
 
     /**
      * @return DriverInterface
      */
-    protected abstract function createDriver();
+    abstract protected function createDriver();
 
     public function testItEnqueuesJob()
     {

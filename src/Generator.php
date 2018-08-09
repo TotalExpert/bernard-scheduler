@@ -49,7 +49,7 @@ class Generator
     public function __construct(
         Producer $producer,
         EventDispatcherInterface $eventDispatcher
-    ){
+    ) {
         $this->producer = $producer;
         $this->eventDispatcher = $eventDispatcher;
     }

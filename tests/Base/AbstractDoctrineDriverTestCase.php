@@ -39,7 +39,7 @@ abstract class AbstractDoctrineDriverTestCase extends AbstractDriverTestCase
     /**
      * @return Connection
      */
-    protected abstract function createConnection();
+    abstract protected function createConnection();
 
     protected function tearDown()
     {

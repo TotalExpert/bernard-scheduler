@@ -33,10 +33,31 @@ class ScheduleCommand extends Command
     public function configure()
     {
         $this
-            ->addArgument('name', InputArgument::REQUIRED, 'Name for the message eg. "ImportUsers".')
-            ->addArgument('message', InputArgument::OPTIONAL, 'JSON encoded string that is used for message properties.')
-            ->addOption('datetime', 'd', InputOption::VALUE_REQUIRED, 'The datetime string to schedule the job at.', 'now')
-            ->addOption('queue', 'q', InputOption::VALUE_OPTIONAL, 'Name of a queue to add this job to. By default the queue is guessed from the message name.', null);
+            ->addArgument(
+                'name',
+                InputArgument::REQUIRED,
+                'Name for the message eg.
+                "ImportUsers".'
+            )
+            ->addArgument(
+                'message',
+                InputArgument::OPTIONAL,
+                'JSON encoded string that is used for message properties.'
+            )
+            ->addOption(
+                'datetime',
+                'd',
+                InputOption::VALUE_REQUIRED,
+                'The datetime string to schedule the job at.',
+                'now'
+            )
+            ->addOption(
+                'queue',
+                'q',
+                InputOption::VALUE_OPTIONAL,
+                'Name of a queue to add this job to. By default the queue is guessed from the message name.',
+                null
+            );
     }
 
     /**
